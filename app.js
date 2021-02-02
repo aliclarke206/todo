@@ -2,10 +2,12 @@
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
+const filterOption = document.querySelector(".filter-todos");
 
 //Event Listeners
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
+filterOption.addEventListener("click", filterTodo);
 
 //Functions
 function addTodo(e) {
@@ -23,7 +25,9 @@ function addTodo(e) {
   //
   newTodo.classList.add("todo-item");
   todoDiv.appendChild(newTodo);
-  todoInput.value = "";
+//save local todos
+saveLocalTodos(todoInput.value);
+  
   //Create Completed Button
   const completedButton = document.createElement("button");
   completedButton.innerHTML = `<i class="fas fa-check"></i>`;
@@ -36,6 +40,7 @@ function addTodo(e) {
   todoDiv.appendChild(trashButton);
   //attach final Todo
   todoList.appendChild(todoDiv);
+  todoInput.value = "";
 }
 
 function deleteCheck(e){
@@ -55,4 +60,45 @@ function deleteCheck(e){
         const todo = item.parentElement;
         todo.classList.toggle('completed')
     }
+}
+//filter todo
+function filterTodo (e) {
+    const todos = todoList.childNodes;
+    todos.forEach(function(todo){
+        switch(e.target.value){
+            case "all":
+                todo.style.display = 'flex';
+                break;
+                case "completed":
+                    if(todo.classList.contains('completed')){
+                        todo.style.display = 'flex';
+                    }else {
+                        todo.style.display = 'none';
+                    }
+                    break;
+                case "uncompleted":
+                    if(!todo.classList.contains('completed')){
+                        todo.style.display = 'flex';
+                    }else {
+                        todo.style.display = 'none';
+                    }
+                    break;
+        }
+    })
+}
+// save to local storage
+function saveLocalTodos (){
+//checking if something in there
+let todos;
+if(localStorage.getItem('todos') === null){
+    todos = [];
+}else{
+    todos = JSON.parse(localStorage.getItem('todos'));
+}
+todos.push('todo');
+localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function getTodos () {
+
 }
