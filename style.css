@@ -89,8 +89,8 @@ form button:hover {
 }
 
 .fall {
-    transform: translateY(10rem), rotateZ(120deg);
-    opacity: 0;
+  transform: translateY(10rem) rotateZ(20deg);
+  opacity: 0;
 }
 .completed {
     text-decoration: line-through;
